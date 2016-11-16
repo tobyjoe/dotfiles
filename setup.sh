@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # Welcome to the thoughtbot laptop script!
 # Be prepared to turn your laptop (or desktop, no haters here)
@@ -40,6 +40,7 @@ if [ ! -d "$HOME/.bin/" ]; then
 fi
 
 if [ ! -f "$HOME/.zshrc" ]; then
+  /usr/local/bin/zsh prez.zsh
   touch "$HOME/.zshrc"
 fi
 
@@ -57,8 +58,6 @@ else
   sudo chflags norestricted "$HOMEBREW_PREFIX"
   sudo chown -R "$LOGNAME:admin" "$HOMEBREW_PREFIX"
 fi
-
-fancy_echo "Shell is currently $SHELL ..."
 
 case "$SHELL" in
   */zsh) : ;;
@@ -90,20 +89,46 @@ fancy_echo "Updating Homebrew formulae ..."
 brew update
 brew bundle
 
-
-# Dotfiles
-if [ ! -d "$HOME/dotfiles" ]; then
-  fancy_echo "Installing dotfiles ..."
-  git clone git://github.com/thoughtbot/dotfiles.git $HOME/dotfiles
+# zprezto
+if [ ! -d "$HOME/.zprezto" ]; then
+  fancy_echo "Installing zprezto ..."
+  #git clone git://github.com/thoughtbot/dotfiles.git $HOME/dotfiles
+  git clone --recursive https://github.com/sorin-ionescu/prezto.git "${ZDOTDIR:-$HOME}/.zprezto"
 fi
 
-env RCRC=$HOME/dotfiles/rcrc rcup
+#env RCRC=$HOME/.dotfiles/rcrc rcup
 
+fancy_echo "Cleaning up old Homebrew formulae ..."
+brew cleanup
+brew cask cleanup
 
-if [ -f "$HOME/.laptop.local" ]; then
-  fancy_echo "Running your customizations from $HOME/.laptop.local ..."
-  # shellcheck disable=SC1090
-  . "$HOME/.laptop.local"
+if [ -r "$HOME/.rcrc" ]; then
+  fancy_echo "Updating dotfiles ..."
+  #rcup
 fi
+
+_PROJECTS_DIR="$HOME/Projects"
+if [ ! -d "$_PROJECTS_DIR" ]; then
+  fancy_echo "Creating $_PROJECTS_DIR ..."
+  mkdir -p "$_PROJECTS_DIR"
+fi
+
+_GOPATH="$_PROJECTS_DIR/go"
+if [ ! -d "$_GOPATH" ]; then
+  fancy_echo "Creating $_GOPATH ..."
+  mkdir -p "$_GOPATH"
+fi
+
+append_to_zshrc << EOF
+export GOPATH=$_GOPATH
+export PATH=\$PATH:"\$GOPATH/bin"
+EOF
+
+append_to_zshrc 'source <(antibody init)'
+
+# Set macOS preferences
+# We will run this last because this will reload the shell
+fancy_echo "Sourcing macOS settings ..."
+/bin/bash .macos
 
 fancy_echo "Finished ..."
