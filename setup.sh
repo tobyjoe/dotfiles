@@ -69,6 +69,8 @@ install_brew() {
 bundle_brew() {
   fancy_echo "Updating Homebrew formulae ..."
   brew update
+  brew cleanup
+  brew cask cleanup
   brew bundle
 }
 
