@@ -117,6 +117,12 @@ configure_git() {
   /bin/bash ./git.sh
 }
 
+configure_golang(){
+  # Setup go
+  fancy_echo "Setting up golang ..."
+  /bin/bash ./golang.sh
+}
+
 configure_mac() {
   # Set macOS preferences
   # We will run this last because this will reload the shell
