@@ -301,6 +301,12 @@ defaults write com.apple.menuextra.clock DateFormat "EEE MMM d  H:mm"
 # Prevent Photos from opening automatically when devices are plugged in
 defaults -currentHost write com.apple.ImageCapture disableHotPlug -bool true
 
+# Add keychain-based SSH keys on login
+if [ ! -d "$HOME/Library/LaunchAgents/" ]; then
+  mkdir -p "$HOME/Library/LaunchAgents/"
+fi
+cp "$PWD/plist/com.tobyjoe.ssh-add.plist" "$HOME/Library/LaunchAgents/"
+
 ###############################################################################
 # Kill affected applications                                                  #
 ###############################################################################
