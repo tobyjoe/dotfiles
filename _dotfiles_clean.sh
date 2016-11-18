@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 echo "Resetting $HOME"
+cd
 rcdn
 rm -rf .atom
 rm -rf .zprezto
