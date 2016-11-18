@@ -1,0 +1,10 @@
+#!/usr/bin/env zsh
+
+# Pull in the profile variables
+source "$HOME/.profile"
+
+# Source Prezto.
+ZINIT="$ZDOTDIR/init.zsh"
+if [[ -s $ZINIT ]]; then
+  source $ZINIT
+fi

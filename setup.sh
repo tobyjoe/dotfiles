@@ -1,9 +1,26 @@
 #!/bin/bash
 
-# Welcome to the thoughtbot laptop script!
-# Be prepared to turn your laptop (or desktop, no haters here)
-# into an awesome development machine.
+# Based on the thoughtbot laptop script, but tweaked pretty heavily...
 
+# shellcheck disable=SC2154
+trap 'ret=$?; test $ret -ne 0 && printf "failed\n\n" >&2; exit $ret' EXIT
+set -e
+
+# Pull the env vars into this script from the rcm source if rcup isn't run yet
+RCM_SRC_DIR="$PWD/rcm"
+PROFILE="$HOME/.profile"
+RCM_PROFILE="$RCM_SRC_DIR/profile"
+if [ -r "$PROFILE" ]; then
+  source "$PROFILE"
+else
+  if [ -r "$RCM_PROFILE" ]; then
+    source "$RCM_PROFILE"
+  fi
+fi
+
+##########################################################
+# FUNCTIONS
+##########################################################
 fancy_echo() {
   local fmt="$1"; shift
 
@@ -11,124 +28,108 @@ fancy_echo() {
   printf "\n$fmt\n" "$@"
 }
 
-append_to_zshrc() {
-  local text="$1" zshrc
-  local skip_new_line="${2:-0}"
+change_shell() {
+  case "$SHELL" in
+    */zsh) : ;;
+    *)
+      fancy_echo "Changing your shell to zsh ..."
+        chsh -s "$(which zsh)"
+      ;;
+  esac
+}
 
-  if [ -w "$HOME/.zshrc.local" ]; then
-    zshrc="$HOME/.zshrc.local"
+install_brew() {
+  HOMEBREW_PREFIX="/usr/local"
+
+  if [ -d "$HOMEBREW_PREFIX" ]; then
+    if ! [ -r "$HOMEBREW_PREFIX" ]; then
+      sudo chown -R "$LOGNAME:admin" /usr/local
+    fi
   else
-    zshrc="$HOME/.zshrc"
+    sudo mkdir "$HOMEBREW_PREFIX"
+    sudo chflags norestricted "$HOMEBREW_PREFIX"
+    sudo chown -R "$LOGNAME:admin" "$HOMEBREW_PREFIX"
   fi
 
-  if ! grep -Fqs "$text" "$zshrc"; then
-    if [ "$skip_new_line" -eq 1 ]; then
-      printf "%s\n" "$text" >> "$zshrc"
-    else
-      printf "\n%s\n" "$text" >> "$zshrc"
-    fi
+  if ! command -v brew >/dev/null; then
+    fancy_echo "Installing Homebrew ..."
+      curl -fsS \
+        'https://raw.githubusercontent.com/Homebrew/install/master/install' | ruby
+
+      # Bring the brew PATH into this script scope
+      export PATH="/usr/local/bin:$PATH"
+  fi
+
+  if brew list | grep -Fq brew-cask; then
+    fancy_echo "Uninstalling old Homebrew-Cask ..."
+    brew uninstall --force brew-cask
   fi
 }
 
-# shellcheck disable=SC2154
-trap 'ret=$?; test $ret -ne 0 && printf "failed\n\n" >&2; exit $ret' EXIT
+bundle_brew() {
+  fancy_echo "Updating Homebrew formulae ..."
+  brew update
+  brew bundle
+}
 
-set -e
-
-if [ ! -d "$HOME/.bin/" ]; then
-  mkdir "$HOME/.bin"
-fi
-
-if [ ! -f "$HOME/.zshrc" ]; then
-  /usr/local/bin/zsh prez.zsh
-  touch "$HOME/.zshrc"
-fi
-
-# shellcheck disable=SC2016
-append_to_zshrc 'export PATH="$HOME/.bin:$PATH"'
-
-HOMEBREW_PREFIX="/usr/local"
-
-if [ -d "$HOMEBREW_PREFIX" ]; then
-  if ! [ -r "$HOMEBREW_PREFIX" ]; then
-    sudo chown -R "$LOGNAME:admin" /usr/local
+clone_prezto() {
+  if [ ! -d "$HOME/.zprezto" ]; then
+    fancy_echo "Cloning zprezto ..."
+    git clone --recursive https://github.com/sorin-ionescu/prezto.git "$HOME/.zprezto"
   fi
-else
-  sudo mkdir "$HOMEBREW_PREFIX"
-  sudo chflags norestricted "$HOMEBREW_PREFIX"
-  sudo chown -R "$LOGNAME:admin" "$HOMEBREW_PREFIX"
-fi
+}
 
-case "$SHELL" in
-  */zsh) : ;;
-  *)
-    fancy_echo "Changing your shell to zsh ..."
-      chsh -s "$(which zsh)"
-    ;;
-esac
+clean_brew() {
+  fancy_echo "Cleaning up old Homebrew formulae ..."
+  brew cleanup
+  brew cask cleanup
+}
 
-if ! command -v brew >/dev/null; then
-  fancy_echo "Installing Homebrew ..."
-    curl -fsS \
-      'https://raw.githubusercontent.com/Homebrew/install/master/install' | ruby
+run_rcup() {
+  fancy_echo "Running rcup ..."
+  if [ ! -r "$HOME/.rcrc" ]; then
+    env RCRC="$RCM_SRC_DIR/rcrc" rcup # For the first run of rcm, we have to point to the rcrc file in the src dir
+  else
+    env RCRC="$HOME/.rcrc" rcup # Once the .rcrc file is in ~, we use it
+  fi
+}
 
-    append_to_zshrc '# recommended by brew doctor'
+create_directories() {
+  fancy_echo "Setting up directories ..."
+  if [ ! -d "$PROJECTS_HOME" ]; then
+    fancy_echo " -> Creating $PROJECTS_HOME ..."
+    mkdir -p "$PROJECTS_HOME"
+  fi
 
-    # shellcheck disable=SC2016
-    append_to_zshrc 'export PATH="/usr/local/bin:$PATH"' 1
+  if [ ! -d "$GOPATH" ]; then
+    fancy_echo " -> Creating $GOPATH ..."
+    mkdir -p "$GOPATH"
+  fi
+}
 
-    export PATH="/usr/local/bin:$PATH"
-fi
+configure_git() {
+  # Set git preferences
+  fancy_echo "Setting up git ..."
+  /bin/bash ./git.sh
+}
 
-if brew list | grep -Fq brew-cask; then
-  fancy_echo "Uninstalling old Homebrew-Cask ..."
-  brew uninstall --force brew-cask
-fi
-
-fancy_echo "Updating Homebrew formulae ..."
-brew update
-brew bundle
-
-# zprezto
-if [ ! -d "$HOME/.zprezto" ]; then
-  fancy_echo "Installing zprezto ..."
-  #git clone git://github.com/thoughtbot/dotfiles.git $HOME/dotfiles
-  git clone --recursive https://github.com/sorin-ionescu/prezto.git "${ZDOTDIR:-$HOME}/.zprezto"
-fi
-
-#env RCRC=$HOME/.dotfiles/rcrc rcup
-
-fancy_echo "Cleaning up old Homebrew formulae ..."
-brew cleanup
-brew cask cleanup
-
-if [ -r "$HOME/.rcrc" ]; then
-  fancy_echo "Updating dotfiles ..."
-  #rcup
-fi
-
-_PROJECTS_DIR="$HOME/Projects"
-if [ ! -d "$_PROJECTS_DIR" ]; then
-  fancy_echo "Creating $_PROJECTS_DIR ..."
-  mkdir -p "$_PROJECTS_DIR"
-fi
-
-_GOPATH="$_PROJECTS_DIR/go"
-if [ ! -d "$_GOPATH" ]; then
-  fancy_echo "Creating $_GOPATH ..."
-  mkdir -p "$_GOPATH"
-fi
-
-append_to_zshrc << EOF
-export GOPATH=$_GOPATH
-export PATH=\$PATH:"\$GOPATH/bin"
-EOF
-
-append_to_zshrc 'source <(antibody init)'
-
-# Set macOS preferences
-# We will run this last because this will reload the shell
-fancy_echo "Sourcing macOS settings ..."
-/bin/bash .macos
+configure_mac() {
+  # Set macOS preferences
+  # We will run this last because this will reload the shell
+  fancy_echo "Configuring macOS settings ..."
+  /bin/bash ./macos.sh
+}
+##########################################################
+# Runbook
+##########################################################
+install_brew
+bundle_brew
+clean_brew
+clone_prezto
+run_rcup # After this, profile, zshrc, etc will be in ~ and path vars will be set
+create_directories
+configure_git
+change_shell
+configure_mac
 
 fancy_echo "Finished ..."

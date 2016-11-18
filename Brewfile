@@ -3,7 +3,6 @@
 # The basics, first ---
 cask_args appdir: '/Applications'
 tap 'caskroom/cask'
-tap 'getantibody/homebrew-antibody'
 tap 'thoughtbot/formulae'
 tap 'homebrew/services'
 tap 'caskroom/fonts'
@@ -47,9 +46,6 @@ brew 'wget'
 # GitHub
 brew 'hub'
 
-# Antibody zsh manager
-brew 'antibody'
-
 # Mackup backup manager for app preferences
 brew 'mackup'
 
@@ -85,8 +81,9 @@ cask 'suspicious-package'
 cask 'font-inconsolata-dz-for-powerline'
 cask 'font-inconsolata'
 cask 'font-meslo-lg-for-powerline'
-cask 'font-ubuntu'
+cask 'font-hack'
 cask 'font-source-code-pro'
+cask 'font-source-code-pro-for-powerline'
 cask 'font-source-sans-pro'
 cask 'font-source-serif-pro'
 
@@ -94,6 +91,11 @@ cask 'font-source-serif-pro'
 cask 'intellij-idea'
 cask 'iterm2'
 cask 'atom'
+
+# Diff Tools
+cask 'kdiff3'
+cask 'Kaleidoscope'
+cask 'meld'
 
 # Mac App Store
 mas 'Xcode', id: 497799835
