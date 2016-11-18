@@ -91,7 +91,7 @@ clean_brew() {
 run_rcup() {
   fancy_echo "Running rcup ..."
   if [ ! -r "$HOME/.rcrc" ]; then
-    cp "$RCM_SRC_DIR/rcrc" "$HOME/.rcrc"
+    cp "$PWD/rcrc" "$HOME/.rcrc"
   fi
 
   env RCRC="$HOME/.rcrc" rcup # Once the .rcrc file is in ~, we use it
