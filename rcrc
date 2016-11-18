@@ -1,2 +1,2 @@
-EXCLUDES="*:LICENSE *:CONTRIBUTING.md *:README* *runcoms:zshrc"
+EXCLUDES="*:LICENSE *:CONTRIBUTING.md *:README* *runcoms:zshrc *runcoms:zpreztorc"
 DOTFILES_DIRS="$HOME/.dotfiles/rcm $HOME/.zprezto/runcoms"
