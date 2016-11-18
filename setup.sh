@@ -91,10 +91,10 @@ clean_brew() {
 run_rcup() {
   fancy_echo "Running rcup ..."
   if [ ! -r "$HOME/.rcrc" ]; then
-    env RCRC="$RCM_SRC_DIR/rcrc" rcup # For the first run of rcm, we have to point to the rcrc file in the src dir
-  else
-    env RCRC="$HOME/.rcrc" rcup # Once the .rcrc file is in ~, we use it
+    cp "$RCM_SRC_DIR/rcrc" "$HOME/.rcrc"
   fi
+
+  env RCRC="$HOME/.rcrc" rcup # Once the .rcrc file is in ~, we use it
 }
 
 create_directories() {
