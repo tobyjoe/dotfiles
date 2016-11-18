@@ -2,7 +2,7 @@
 export DOTFILES_HOME="$HOME/.dotfiles"
 
 # Prezto install location
-export ZDOTDIR="$HOME/.zprezto"
+export ZDOTDIR="$HOME"
 
 # Projects directory
 export PROJECTS_HOME="$HOME/Projects"

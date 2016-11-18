@@ -75,9 +75,9 @@ bundle_brew() {
 }
 
 clone_prezto() {
-  if [ ! -d "$HOME/.zprezto" ]; then
+  if [ ! -d "$ZDOTDIR/.zprezto" ]; then
     fancy_echo "Cloning zprezto ..."
-    git clone --recursive https://github.com/sorin-ionescu/prezto.git "$HOME/.zprezto"
+    git clone --recursive https://github.com/sorin-ionescu/prezto.git "$ZDOTDIR/.zprezto"
   fi
 }
 

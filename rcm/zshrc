@@ -4,7 +4,8 @@
 source "$HOME/.profile"
 
 # Source Prezto.
-ZINIT="$ZDOTDIR/init.zsh"
-if [[ -s $ZINIT ]]; then
-  source $ZINIT
+ZINIT="$ZDOTDIR/.zprezto/init.zsh"
+echo "ZINIT IS $ZINIT"
+if [ -r "$ZINIT" ]; then
+  source "$ZINIT"
 fi
