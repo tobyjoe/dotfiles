@@ -205,11 +205,6 @@ defaults write com.apple.dock wvous-br-corner -int 11
 defaults write com.apple.dock wvous-br-modifier -int 0
 
 ###############################################################################
-# Disable IR Controls                                                         #
-###############################################################################
-defaults write /Library/Preferences/com.apple.driver.AppleIRController DeviceEnabled -int 0
-
-###############################################################################
 # Always show scrollbars                                                      #
 ###############################################################################
 defaults write NSGlobalDomain AppleShowScrollBars -string "Always"
