@@ -92,6 +92,9 @@ cask 'intellij-idea'
 cask 'iterm2'
 cask 'atom'
 
+# Productivity
+cask 'alfred'
+
 # Diff Tools
 cask 'kdiff3'
 cask 'Kaleidoscope'
@@ -99,7 +102,6 @@ cask 'meld'
 
 # Mac App Store
 mas 'Xcode', id: 497799835
-mas 'alfred', id: 405843582
 mas 'magnet', id: 441258766
 mas 'disk aid', id: 1007358832
 mas 'quiver', id: 866773894
