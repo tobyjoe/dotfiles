@@ -13,7 +13,7 @@ while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
 ###############################################################################
 
 # Set standby delay to 24 hours (default is 1 hour)
-sudo pmset -a standbydelay 86400
+sudo pmset -a standbydelay 3600
 
 # Disable the sound effects on boot
 sudo nvram SystemAudioVolume=" "
@@ -126,7 +126,7 @@ defaults write com.apple.finder FXInfoPanesExpanded -dict \
     OpenWith -bool true \
     Privileges -bool true
 
-# Auto hide menu bar
+# Auto hide menu bar (OFF)
 defaults write NSGlobalDomain _HIHideMenuBar -bool false
 
 # Show hidden files
@@ -139,6 +139,9 @@ defaults write com.apple.finder AppleShowAllFiles true
 
 # Dark menu bar and dock
 defaults write $HOME/Library/Preferences/.GlobalPreferences.plist AppleInterfaceTheme -string "Dark"
+defaults write $HOME/Library/Preferences/.GlobalPreferences.plist AppleInterfaceStyle -string "Dark"
+defaults write $HOME/Library/Preferences/.GlobalPreferences.plist AppleHighlightColor -string "0.847059 0.847059 0.862745"
+defaults write $HOME/Library/Preferences/.GlobalPreferences.plist AppleAquaColorVariant -string "6"
 
 # Enable highlight hover effect for the grid view of a stack (Dock)
 defaults write com.apple.dock mouse-over-hilite-stack -bool true
@@ -291,8 +294,8 @@ defaults write com.apple.ical "first minute of work hours" 540
 # Date & Time                                                                 #
 ###############################################################################
 
-# Custom DateFormat
-defaults write com.apple.menuextra.clock DateFormat "EEE MMM d  H:mm"
+# Custom DateFormat - 12 hour clock in the menubar
+defaults write com.apple.menuextra.clock DateFormat "EEE MMM d  h:mm a"
 
 ###############################################################################
 # Photos                                                                      #
