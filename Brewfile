@@ -27,12 +27,20 @@ brew 'findutils'
 # Install Bash 4
 brew 'bash'
 
+# Install the Logitech MyHarmony app
+cask 'logitech-myharmony'
+
+# Install networking utils
+brew 'nmap'
+brew 'curl'
+brew 'wget'
 # Install more recent versions of some macOS tools
-brew 'homebrew/dupes/grep'
+brew 'grep'
 
 # Docker
 brew 'docker'
 brew 'docker-machine'
+brew 'docker-swarm'
 
 # Mac App Store
 brew 'mas'
@@ -42,6 +50,7 @@ brew 'vim'
 brew 'awscli'
 brew 'tree'
 brew 'wget'
+brew 'pv'
 
 # GitHub
 brew 'hub'
@@ -77,6 +86,10 @@ cask 'quicklook-csv'
 cask 'quicklook-json'
 cask 'suspicious-package'
 
+cask 'arduino'
+cask 'intel-xdk-iot'
+cask 'intel-xdk'
+
 # Install fonts
 cask 'font-inconsolata-dz-for-powerline'
 cask 'font-inconsolata'
@@ -107,4 +120,5 @@ mas 'disk aid', id: 1007358832
 mas 'quiver', id: 866773894
 mas 'tweetbot', id: 557168941
 mas '1Password', id: 443987910
+mas 'Watchdog for Xcode', id: 734258109
 #mas 'omnigraffle', id: 1142578753

@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
 
+curl -O https://raw.githubusercontent.com/hypriot/flash/master/$(uname -s)/flash
+chmod +x flash
+sudo mv flash /usr/local/bin/flash
+
 # Thanks to Mathias Bynens! https://mths.be/macos
 
 # Ask for the administrator password upfront
