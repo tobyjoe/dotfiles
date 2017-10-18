@@ -41,7 +41,8 @@ brew 'grep'
 brew 'docker'
 brew 'docker-machine'
 brew 'docker-swarm'
-
+brew 'kubectl'
+brew 'bash-completion@2'
 # Mac App Store
 brew 'mas'
 
@@ -63,13 +64,16 @@ brew 'go', args: ['--cross-compile-common']
 brew 'scala'
 brew 'terraform'
 brew 'node'
+brew 'glide'
 
 # Virtualbox
 cask 'virtualbox'
 cask 'virtualbox-extension-pack'
-
+cask 'minikube'
+brew 'kubernetes-helm'
+brew 'kops'
 # Veertu
-cask 'veertu-desktop'
+#cask 'veertu-desktop'
 
 # Java
 cask 'java' unless system '/usr/libexec/java_home --failfast'
@@ -87,13 +91,13 @@ cask 'quicklook-json'
 cask 'suspicious-package'
 
 cask 'arduino'
-cask 'intel-xdk-iot'
-cask 'intel-xdk'
+#cask 'intel-xdk-iot'
+#cask 'intel-xdk'
 
 # Install fonts
 cask 'font-inconsolata-dz-for-powerline'
 cask 'font-inconsolata'
-cask 'font-meslo-lg-for-powerline'
+#cask 'font-meslo-lg-for-powerline'
 cask 'font-hack'
 cask 'font-source-code-pro'
 cask 'font-source-code-pro-for-powerline'

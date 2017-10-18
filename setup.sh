@@ -65,14 +65,23 @@ install_brew() {
     brew uninstall --force brew-cask
   fi
 }
-
+REINSTALL_CASKS="$1"
 bundle_brew() {
-  fancy_echo "Updating Homebrew formulae ..."
+  BCMD="outdated"
+  if [ "$REINSTALL_CASKS" = "reinstall" ]; then
+    fancy_echo "Reinstalling Homebrew formulae ..."
+    BCMD="list"
+  else
+    fancy_echo "Updating Homebrew formulae ..."
+  fi
+
+  brew cleanup
   brew update
   brew upgrade
   brew cleanup
   brew cask cleanup
   brew bundle
+  brew cask "$BCMD" | xargs brew cask reinstall
 }
 
 clone_prezto() {
@@ -121,6 +130,7 @@ configure_golang(){
   # Setup go
   fancy_echo "Setting up golang ..."
   /bin/bash ./golang.sh
+  fancy_echo "GOPATH is: (${GOPATH})"
 }
 
 configure_mac() {
@@ -139,6 +149,7 @@ clone_prezto
 run_rcup # After this, profile, zshrc, etc will be in ~ and path vars will be set
 create_directories
 configure_git
+configure_golang
 change_shell
 configure_mac
 
