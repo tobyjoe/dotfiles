@@ -7,9 +7,11 @@ tap 'thoughtbot/formulae'
 tap 'homebrew/services'
 tap 'caskroom/fonts'
 tap 'homebrew/dupes'
+tap 'timescale/tap'
 
 # Unix
 brew 'ctags'
+brew 'gcc'
 brew 'git'
 brew 'openssl'
 brew 'rcm'
@@ -52,6 +54,7 @@ brew 'awscli'
 brew 'tree'
 brew 'wget'
 brew 'pv'
+brew 'bettercap'
 
 # GitHub
 brew 'hub'
@@ -65,6 +68,12 @@ brew 'scala'
 brew 'terraform'
 brew 'node'
 brew 'glide'
+brew 'neo4j'
+brew 'r'
+brew 'faas-cli'
+brew 'telegraf'
+cask 'timescaledb'
+cask 'pibakery'
 
 # Virtualbox
 cask 'virtualbox'
@@ -105,12 +114,15 @@ cask 'font-source-sans-pro'
 cask 'font-source-serif-pro'
 
 # Editors & Dev Tools
-cask 'intellij-idea'
+cask 'jetbrains-toolbox'
 cask 'iterm2'
 cask 'atom'
 
+cask 'mblock'
+
 # Productivity
 cask 'alfred'
+cask 'anaconda'
 
 # Diff Tools
 cask 'kdiff3'
@@ -125,4 +137,5 @@ mas 'quiver', id: 866773894
 mas 'tweetbot', id: 557168941
 mas '1Password', id: 443987910
 mas 'Watchdog for Xcode', id: 734258109
+mas 'Slack', id: 803453959
 #mas 'omnigraffle', id: 1142578753

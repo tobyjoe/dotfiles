@@ -82,6 +82,8 @@ bundle_brew() {
   brew cask cleanup
   brew bundle
   brew cask "$BCMD" | xargs brew cask reinstall
+  brew cleanup
+  brew cask cleanup
 }
 
 clone_prezto() {

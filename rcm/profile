@@ -8,7 +8,7 @@ export ZDOTDIR="$HOME"
 export PROJECTS_HOME="$HOME/Projects"
 
 # Set up the go env
-export GOPATH="$PROJECTS_HOME/golang"
+export GOPATH="$HOME/golang"
 
 # Recommended by brew doctor
 export PATH="/usr/local/bin:$PATH:$GOPATH/bin"
