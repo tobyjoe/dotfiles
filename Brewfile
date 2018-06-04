@@ -71,8 +71,8 @@ brew 'neo4j'
 brew 'r'
 brew 'faas-cli'
 brew 'telegraf'
-cask 'postgresql'
-cask 'timescaledb'
+brew 'postgresql'
+brew 'timescaledb'
 cask 'pibakery'
 
 # Virtualbox
