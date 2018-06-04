@@ -71,6 +71,7 @@ brew 'neo4j'
 brew 'r'
 brew 'faas-cli'
 brew 'telegraf'
+cask 'postgresql'
 cask 'timescaledb'
 cask 'pibakery'
 
