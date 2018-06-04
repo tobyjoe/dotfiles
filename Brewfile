@@ -6,7 +6,6 @@ tap 'caskroom/cask'
 tap 'thoughtbot/formulae'
 tap 'homebrew/services'
 tap 'caskroom/fonts'
-tap 'homebrew/dupes'
 tap 'timescale/tap'
 
 # Unix
@@ -29,15 +28,15 @@ brew 'findutils'
 # Install Bash 4
 brew 'bash'
 
-# Install the Logitech MyHarmony app
-cask 'logitech-myharmony'
-
 # Install networking utils
 brew 'nmap'
 brew 'curl'
 brew 'wget'
 # Install more recent versions of some macOS tools
 brew 'grep'
+
+# Java
+cask 'java' unless system '/usr/libexec/java_home --failfast'
 
 # Docker
 brew 'docker'
@@ -84,9 +83,6 @@ brew 'kops'
 # Veertu
 #cask 'veertu-desktop'
 
-# Java
-cask 'java' unless system '/usr/libexec/java_home --failfast'
-
 # Install quicklook plugins with brew-cask
 # (https://github.com/sindresorhus/quick-look-plugins)
 cask 'betterzipql'
@@ -115,6 +111,7 @@ cask 'font-source-serif-pro'
 
 # Editors & Dev Tools
 cask 'jetbrains-toolbox'
+cask 'goland'
 cask 'iterm2'
 cask 'atom'
 
