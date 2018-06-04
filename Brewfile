@@ -86,7 +86,6 @@ brew 'kops'
 
 # Install quicklook plugins with brew-cask
 # (https://github.com/sindresorhus/quick-look-plugins)
-cask 'betterzipql'
 cask 'qlcolorcode'
 cask 'qlimagesize'
 cask 'qlmarkdown'
