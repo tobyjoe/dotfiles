@@ -63,6 +63,7 @@ brew 'mackup'
 
 # Languages
 brew 'go', args: ['--cross-compile-common']
+brew 'dep'
 brew 'scala'
 brew 'terraform'
 brew 'node'
