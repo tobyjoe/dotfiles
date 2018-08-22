@@ -115,6 +115,7 @@ cask 'jetbrains-toolbox'
 cask 'goland'
 cask 'iterm2'
 cask 'atom'
+cask 'visual-studio-code'
 
 cask 'mblock'
 
