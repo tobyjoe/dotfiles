@@ -97,7 +97,6 @@ clean_brew() {
   fancy_echo "Cleaning up old Homebrew formulae ..."
   brew update
   brew cleanup
-  brew cask cleanup
 }
 
 run_rcup() {
